@@ -96,13 +96,15 @@ export default function EditProfileForm({ onClose }) {
   return (
     <form onSubmit={handleSave} className="w-full flex flex-col items-center">
       <label htmlFor="profileImage" className="cursor-pointer mb-6">
-        <Image
-          src={previewUrl || '/userprofile.png'}
-          alt="프로필 이미지"
-          width={120}
-          height={120}
-          className="rounded-md object-cover"
-        />
+        <div className="w-28 h-28 rounded-full overflow-hidden ring-1 ring-gray-200 shadow-sm">
+          <Image
+            src={previewUrl || '/userbasicimg.png'}
+            alt="프로필 이미지"
+            width={112}
+            height={112}
+            className="object-cover w-full h-full"
+          />
+        </div>
         <input
           id="profileImage"
           type="file"

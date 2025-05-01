@@ -46,6 +46,12 @@ export default function MyBlogPage() {
     if (id) fetchUserPosts();
   }, [id]);
 
+  useEffect(() => {
+    if (!user && id === blogOwner?.id) {
+      router.push("/");
+    }
+  }, [user, id, blogOwner, router]);
+
   return (
     <div
       className={`${

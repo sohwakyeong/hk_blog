@@ -45,15 +45,16 @@ export default function SignupForm() {
           message = "비밀번호는 최소 6자 이상이어야 합니다.";
           break;
         default:
-          message = "회원가입 중 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.";
+          message =
+            "회원가입 중 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.";
       }
       setErrorMsg(message);
       return;
     }
 
     const user = data.user;
-
     let imageUrl = "";
+
     if (profileImage && user) {
       const ext = profileImage.type.split("/")[1];
       const safeName = `${Date.now()}_${sanitizeFilename(
@@ -78,7 +79,7 @@ export default function SignupForm() {
           email,
           nickname,
           blog_name: blogName,
-          profile_url: imageUrl,
+          ...(imageUrl && { profile_url: imageUrl }),
         },
       ]);
 
@@ -109,15 +110,17 @@ export default function SignupForm() {
           <h1 className="text-xl font-bold text-[#111]">회원가입</h1>
         </div>
 
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-6 flex-col items-center gap-2">
           <label htmlFor="profileImage" className="cursor-pointer">
-            <Image
-              src={previewUrl || "/userprofile.png"}
-              alt="프로필 이미지"
-              width={120}
-              height={120}
-              className="rounded-md object-cover"
-            />
+            <div className="w-28 h-28 rounded-full overflow-hidden ring-1 ring-gray-200 shadow-sm">
+              <Image
+                src={previewUrl || "/userbasicimg.png"}
+                alt="프로필 이미지"
+                width={112}
+                height={112}
+                className="object-cover w-full h-full"
+              />
+            </div>
             <input
               id="profileImage"
               type="file"
@@ -126,11 +129,14 @@ export default function SignupForm() {
               className="hidden"
             />
           </label>
+          <p className="text-xs text-gray-400">작은 이미지로 나를 표현해봐요.</p>
         </div>
 
         <div className="w-full">
           <div className="mb-4">
-            <label className="block text-[#222] text-sm font-medium mb-1">이메일</label>
+            <label className="block text-[#222] text-sm font-medium mb-1">
+              이메일
+            </label>
             <input
               type="email"
               value={email}
@@ -141,7 +147,9 @@ export default function SignupForm() {
           </div>
 
           <div className="mb-4">
-            <label className="block text-[#222] text-sm font-medium mb-1">비밀번호</label>
+            <label className="block text-[#222] text-sm font-medium mb-1">
+              비밀번호
+            </label>
             <input
               type="password"
               value={password}
@@ -152,7 +160,9 @@ export default function SignupForm() {
           </div>
 
           <div className="mb-4">
-            <label className="block text-[#222] text-sm font-medium mb-1">닉네임</label>
+            <label className="block text-[#222] text-sm font-medium mb-1">
+              닉네임
+            </label>
             <input
               type="text"
               value={nickname}
@@ -163,7 +173,9 @@ export default function SignupForm() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-[#222] text-sm font-medium mb-1">블로그 이름</label>
+            <label className="block text-[#222] text-sm font-medium mb-1">
+              블로그 이름
+            </label>
             <input
               type="text"
               value={blogName}
@@ -173,7 +185,9 @@ export default function SignupForm() {
             />
           </div>
 
-          {errorMsg && <p className="text-red-500 text-sm mb-4 text-center">{errorMsg}</p>}
+          {errorMsg && (
+            <p className="text-red-500 text-sm mb-4 text-center">{errorMsg}</p>
+          )}
 
           <button
             type="submit"
