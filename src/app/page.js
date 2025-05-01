@@ -55,7 +55,8 @@ export default function MainPage() {
         darkMode ? 'bg-[#111] text-[#F5F5F5]' : 'bg-[#FAFAFA] text-[#111]'
       } min-h-screen transition-colors duration-300`}
     >
-      <Header titleSuffix="" />
+      {!loading && <Header titleSuffix="" />}
+
       <div className="max-w-5xl mx-auto py-10 px-4">
         {loading ? (
           <div className="flex justify-center items-center min-h-[40vh]">
