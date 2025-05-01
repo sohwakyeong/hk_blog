@@ -11,6 +11,7 @@ export default function MainPage() {
   const router = useRouter()
   const darkMode = useUserStore((state) => state.darkMode)
   const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchPosts() {
@@ -21,6 +22,7 @@ export default function MainPage() {
 
       if (!data || error) {
         console.error('글 불러오기 실패', error)
+        setLoading(false)
         return
       }
 
@@ -41,6 +43,7 @@ export default function MainPage() {
       )
 
       setPosts(enrichedPosts)
+      setLoading(false)
     }
 
     fetchPosts()
@@ -54,11 +57,17 @@ export default function MainPage() {
     >
       <Header titleSuffix="" />
       <div className="max-w-5xl mx-auto py-10 px-4">
-        <PostGrid
-          posts={posts}
-          darkMode={darkMode}
-          onClickPost={(id) => router.push(`/post/${id}`)}
-        />
+        {loading ? (
+          <div className="flex justify-center items-center min-h-[40vh]">
+            <div className="w-10 h-10 border-4 border-gray-300 border-t-transparent rounded-full animate-spin dark:border-gray-600" />
+          </div>
+        ) : (
+          <PostGrid
+            posts={posts}
+            darkMode={darkMode}
+            onClickPost={(id) => router.push(`/post/${id}`)}
+          />
+        )}
       </div>
     </div>
   )
