@@ -14,6 +14,8 @@ export default function PostDetailPage() {
   const { id } = useParams();
   const router = useRouter();
   const darkMode = useUserStore((state) => state.darkMode);
+  const currentUser = useUserStore((state) => state.user);
+  const isAdmin = useUserStore((state) => state.isAdmin);
 
   const [post, setPost] = useState(null);
   const [authorId, setAuthorId] = useState(null);
@@ -62,6 +64,7 @@ export default function PostDetailPage() {
     );
   }
 
+  const isAuthor = currentUser && post && currentUser.id === post.author_id;
   const createdDate = new Date(post.created_at).toLocaleDateString("ko-KR", {
     timeZone: "Asia/Seoul",
     year: "numeric",
@@ -69,7 +72,20 @@ export default function PostDetailPage() {
     day: "numeric",
   });
 
+  function handleEdit() {
+    if (!isAuthor && !isAdmin) {
+      showError("작성자만 수정할 수 있습니다.");
+      return;
+    }
+    router.push(`/post/${id}/edit`);
+  }
+
   async function handleDelete() {
+    if (!isAuthor && !isAdmin) {
+      showError("작성자만 삭제할 수 있습니다.");
+      return;
+    }
+
     const confirmDelete = window.confirm("정말 이 글을 삭제할까요?");
     if (!confirmDelete) return;
 
@@ -82,10 +98,6 @@ export default function PostDetailPage() {
 
     showSuccess("글이 삭제되었습니다!");
     router.push("/");
-  }
-
-  function handleEdit() {
-    router.push(`/post/${id}/edit`);
   }
 
   return (
@@ -102,9 +114,11 @@ export default function PostDetailPage() {
           title={post.title}
           author={authorNickname}
           createdDate={createdDate}
+          category={post.category}
           onEdit={handleEdit}
           onDelete={handleDelete}
           darkMode={darkMode}
+          canEdit={isAuthor || isAdmin}
         />
         <PostContent content={post.content} />
         <PostFooter author={authorNickname} />

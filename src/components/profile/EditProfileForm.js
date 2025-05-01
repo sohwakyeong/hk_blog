@@ -43,6 +43,17 @@ export default function EditProfileForm({ onClose }) {
     e.preventDefault()
     if (!user) return
 
+    if (!nickname.trim()) {
+      setErrorMsg('닉네임을 입력해주세요.')
+      return
+    }
+    if (!blogName.trim()) {
+      setErrorMsg('블로그 이름을 입력해주세요.')
+      return
+    }
+
+    setErrorMsg('')
+
     let imageUrl = previewUrl
 
     if (profileImage) {
@@ -69,9 +80,7 @@ export default function EditProfileForm({ onClose }) {
       return
     }
 
-
     await fetchUser()
-
     showSuccess('프로필이 성공적으로 수정되었습니다!')
     onClose()
   }

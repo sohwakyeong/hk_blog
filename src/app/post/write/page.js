@@ -44,6 +44,7 @@ export default function PostWritePage() {
 
   async function handleSubmit() {
     if (!title.trim()) return showError("제목을 입력하세요.");
+    if (!category) return showError("카테고리를 선택하세요."); 
     const markdown = editorRef.current?.getInstance().getMarkdown();
     const html = editorRef.current?.getInstance().getHTML();
     if (!markdown.trim()) return showError("내용을 입력하세요.");
@@ -91,16 +92,16 @@ export default function PostWritePage() {
           <BackButton />
           <button
             onClick={handleSubmit}
-            className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors
-    ${
-      darkMode
-        ? "bg-white text-black hover:bg-[#ddd]"
-        : "bg-black text-white hover:bg-[#333]"
-    }`}
+            className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors ${
+              darkMode
+                ? "bg-white text-black hover:bg-[#ddd]"
+                : "bg-black text-white hover:bg-[#333]"
+            }`}
           >
             출간하기
           </button>
         </div>
+
         <input
           type="text"
           placeholder="제목을 입력하세요."
@@ -108,9 +109,12 @@ export default function PostWritePage() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+
         <div className="relative w-[160px] mb-6 select-none">
           <div
-            className="bg-transparent text-sm font-semibold py-2 px-3 border border-gray-300 rounded cursor-pointer"
+            className={`text-sm font-semibold py-2 px-3 border border-gray-300 rounded cursor-pointer ${
+              darkMode ? "bg-[#2a2a2a] text-white" : "bg-transparent text-black"
+            }`}
             onClick={() => setIsOpen(!isOpen)}
           >
             {category || "Select category"}
@@ -123,13 +127,17 @@ export default function PostWritePage() {
             </span>
           </div>
           {isOpen && (
-            <ul className="absolute left-0 w-full bg-white border border-gray-200 mt-1 rounded-sm shadow-md z-50">
+            <ul
+              className={`absolute left-0 w-full mt-1 rounded-sm shadow-md z-50 border border-gray-200 ${
+                darkMode ? "bg-[#2a2a2a] text-white" : "bg-white text-black"
+              }`}
+            >
               {categories.map((cat) => (
                 <li
                   key={cat}
-                  className={`px-3 py-2 text-sm cursor-pointer hover:bg-[#f5f5f5] ${
-                    category === cat ? "font-semibold" : ""
-                  }`}
+                  className={`px-3 py-2 text-sm cursor-pointer ${
+                    darkMode ? "hover:bg-[#3a3a3a]" : "hover:bg-[#f5f5f5]"
+                  } ${category === cat ? "font-semibold" : ""}`}
                   onClick={() => {
                     setCategory(cat);
                     setIsOpen(false);
@@ -141,6 +149,7 @@ export default function PostWritePage() {
             </ul>
           )}
         </div>
+
         <div className="bg-white p-6 rounded shadow-sm mt-5">
           <TuiEditor
             ref={editorRef}
@@ -160,13 +169,15 @@ export default function PostWritePage() {
                 const { data, error } = await supabase.storage
                   .from(bucket)
                   .upload(safeName, blob);
+
                 if (error) {
                   showError("에디터 이미지 업로드 실패");
                   return;
                 }
 
-                const url = supabase.storage.from(bucket).getPublicUrl(safeName)
-                  .data.publicUrl;
+                const url =
+                  supabase.storage.from(bucket).getPublicUrl(safeName)
+                    .data.publicUrl;
                 callback(url, safeName);
               },
             }}

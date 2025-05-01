@@ -4,9 +4,11 @@ export default function PostHeader({
   title,
   author,
   createdDate,
+  category,
   onEdit,
   onDelete,
   darkMode,
+  canEdit,
 }) {
   const hoverEditClass = darkMode
     ? "hover:text-gray-300"
@@ -19,19 +21,34 @@ export default function PostHeader({
     <div className="mb-10">
       <h1 className="text-4xl font-bold mb-3 leading-snug">{title}</h1>
       <div className="flex justify-between items-center text-sm text-gray-500">
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center flex-wrap">
           <span className="font-semibold">{author || "작성자 없음"}</span>
           <span>·</span>
           <span>{createdDate}</span>
+
+          {category && (
+            <span
+              className={`ml-2 px-2 py-0.5 rounded-full text-xs font-medium ${
+                darkMode
+                  ? "bg-[#2a2a2a] text-white border border-gray-600"
+                  : "bg-gray-100 text-gray-800 border border-gray-300"
+              }`}
+            >
+              #{category}
+            </span>
+          )}
         </div>
-        <div className="flex gap-4">
-          <button onClick={onEdit} className={`${hoverEditClass} transition-colors`}>
-            수정
-          </button>
-          <button onClick={onDelete} className={`${hoverDeleteClass} transition-colors`}>
-            삭제
-          </button>
-        </div>
+
+        {canEdit && (
+          <div className="flex gap-4">
+            <button onClick={onEdit} className={`${hoverEditClass} transition-colors`}>
+              수정
+            </button>
+            <button onClick={onDelete} className={`${hoverDeleteClass} transition-colors`}>
+              삭제
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -18,9 +18,20 @@ export default function PostEditPage() {
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [category, setCategory] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(true)
 
   const bucket = process.env.NEXT_PUBLIC_STORAGE_BUCKET
+
+  const categories = [
+    'TravelLog',
+    'StudyLog',
+    'ReviewLog',
+    'RecipeLog',
+    'HealthLog',
+    'EmotionLog',
+  ]
 
   useEffect(() => {
     async function fetchPost() {
@@ -36,10 +47,8 @@ export default function PostEditPage() {
         return
       }
 
-     
       if (!user) return
 
-   
       if (user.id !== data.author_id && !isAdmin) {
         showError('접근 권한이 없습니다.')
         router.back()
@@ -48,6 +57,7 @@ export default function PostEditPage() {
 
       setTitle(data.title)
       setContent(data.content)
+      setCategory(data.category || '')
       setLoading(false)
     }
 
@@ -80,6 +90,7 @@ export default function PostEditPage() {
           title,
           content: newContent,
           thumbnail_url: firstImageUrl,
+          category,
         })
         .eq('id', id)
 
@@ -102,11 +113,11 @@ export default function PostEditPage() {
           <BackButton />
           <button
             onClick={handleUpdate}
-            className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors
-              ${darkMode
+            className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors ${
+              darkMode
                 ? 'bg-white text-black hover:bg-[#ddd]'
                 : 'bg-black text-white hover:bg-[#333]'
-              }`}
+            }`}
           >
             수정 완료
           </button>
@@ -119,6 +130,46 @@ export default function PostEditPage() {
           placeholder="제목을 입력하세요"
           className="w-full text-5xl font-bold mb-4 outline-none bg-transparent placeholder-gray-400"
         />
+
+        <div className="relative w-[160px] mb-6 select-none">
+          <div
+            className={`text-sm font-semibold py-2 px-3 border border-gray-300 rounded cursor-pointer ${
+              darkMode ? 'bg-[#2a2a2a] text-white' : 'bg-transparent text-black'
+            }`}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {category ? category : 'Select category'}
+            <span
+              className={`float-right transition-transform ${
+                isOpen ? 'rotate-180' : ''
+              }`}
+            >
+              ▼
+            </span>
+          </div>
+          {isOpen && (
+            <ul
+              className={`absolute left-0 w-full mt-1 rounded-sm shadow-md z-50 border border-gray-200 ${
+                darkMode ? 'bg-[#2a2a2a] text-white' : 'bg-white text-black'
+              }`}
+            >
+              {categories.map((cat) => (
+                <li
+                  key={cat}
+                  className={`px-3 py-2 text-sm cursor-pointer ${
+                    darkMode ? 'hover:bg-[#3a3a3a]' : 'hover:bg-[#f5f5f5]'
+                  } ${category === cat ? 'font-semibold' : ''}`}
+                  onClick={() => {
+                    setCategory(cat)
+                    setIsOpen(false)
+                  }}
+                >
+                  {cat}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
         <div className="bg-white p-6 rounded shadow-sm mt-5 min-h-[500px]">
           {loading ? (

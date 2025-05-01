@@ -1,8 +1,25 @@
 'use client'
 
 import Image from 'next/image'
+import { useMemo } from 'react'
+
+const fallbackColors = [
+  '#FDE68A',
+  '#A5F3FC',
+  '#D8B4FE',
+  '#FBCFE8',
+  '#BFDBFE',
+  '#CFFAFE',
+  '#FDE2E4',
+  '#E0F2FE',
+]
+
 
 export default function PostCard({ post, darkMode, onClick }) {
+  const fallbackColor = useMemo(() => {
+    return fallbackColors[Math.floor(Math.random() * fallbackColors.length)]
+  }, [])
+
   return (
     <div
       className={`shadow-md rounded-xl overflow-hidden cursor-pointer hover:shadow-lg transition flex flex-col ${
@@ -10,7 +27,7 @@ export default function PostCard({ post, darkMode, onClick }) {
       }`}
       onClick={onClick}
     >
-      {post.thumbnail_url && (
+      {post.thumbnail_url ? (
         <div className="relative w-full h-45">
           <Image
             src={post.thumbnail_url}
@@ -20,7 +37,14 @@ export default function PostCard({ post, darkMode, onClick }) {
             priority
           />
         </div>
+      ) : (
+        <div
+          className="w-full h-[180px] flex items-center justify-center"
+          style={{ backgroundColor: fallbackColor }}
+        >
+        </div>
       )}
+
       <div className="p-3 flex flex-col justify-between flex-1">
         <h2 className="text-lg font-bold mb-2 line-clamp-1">{post.title}</h2>
 

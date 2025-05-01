@@ -18,13 +18,19 @@ export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (user === null) return;
+  
+    if (user === null) {
+      showError("로그인이 필요합니다.");
+      router.push("/login");
+      return;
+    }
 
     if (!isAdmin) {
       showError("접근 권한이 없습니다.");
       router.push("/");
     }
   }, [user, isAdmin, router]);
+
 
   useEffect(() => {
     async function fetchAllPosts() {
@@ -60,38 +66,23 @@ export default function AdminPage() {
     fetchAllPosts();
   }, []);
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("정말 이 글을 삭제할까요?");
-    if (!confirmDelete) return;
-
-    const { error } = await supabase.from("posts").delete().eq("id", id);
-    if (error) {
-      showError("삭제 실패");
-    } else {
-      setPosts((prev) => prev.filter((post) => post.id !== id));
-      showSuccess("삭제 완료");
-    }
-  };
+  if (user === null) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="w-10 h-10 border-4 border-gray-300 border-t-transparent rounded-full animate-spin dark:border-gray-600 dark:border-t-transparent" />
+      </div>
+    );
+  }
 
   return (
-    <div
-      className={`${
-        darkMode ? "bg-[#111] text-[#eee]" : "bg-[#FAFAFA] text-[#111]"
-      } min-h-screen`}
-    >
+    <div className={`${darkMode ? "bg-[#111] text-[#eee]" : "bg-[#FAFAFA] text-[#111]"} min-h-screen`}>
       <Header titleSuffix="관리자Log" />
-
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <div
-          className={`flex items-center gap-2 mb-6 ${
-            darkMode ? "text-white" : "text-[#111]"
-          }`}
-        >
-          <FileText
-            className={`w-6 h-6 ${darkMode ? "text-white" : "text-gray-800"}`}
-          />
+        <div className={`flex items-center gap-2 mb-6 ${darkMode ? "text-white" : "text-[#111]"}`}>
+          <FileText className={`w-6 h-6 ${darkMode ? "text-white" : "text-gray-800"}`} />
           <h1 className="text-xl font-bold">게시글 전체 관리</h1>
         </div>
+
         {isLoading ? (
           <div className="flex justify-center items-center py-10">
             <div className="w-10 h-10 border-4 border-gray-300 border-t-transparent rounded-full animate-spin dark:border-gray-600 dark:border-t-transparent" />
@@ -101,10 +92,7 @@ export default function AdminPage() {
         ) : (
           <div className="border-t border-gray-300">
             {posts.map((post) => (
-              <div
-                key={post.id}
-                className="flex justify-between items-center py-4 border-b border-gray-200"
-              >
+              <div key={post.id} className="flex justify-between items-center py-4 border-b border-gray-200">
                 <div className="space-y-1">
                   <p
                     className="text-base font-semibold cursor-pointer hover:underline"
@@ -142,4 +130,23 @@ export default function AdminPage() {
       </div>
     </div>
   );
+
+  async function handleDelete(id) {
+    const confirmDelete = window.confirm("정말 이 글을 삭제할까요?");
+    if (!confirmDelete) return;
+
+    const { error } = await supabase.from("posts").delete().eq("id", id);
+
+    if (error) {
+      if (error.message.includes("permission denied")) {
+        showError("작성자 또는 관리자만 삭제할 수 있습니다.");
+      } else {
+        showError("삭제에 실패했습니다.");
+      }
+      return;
+    }
+
+    setPosts((prev) => prev.filter((post) => post.id !== id));
+    showSuccess("삭제 완료");
+  }
 }
