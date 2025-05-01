@@ -87,7 +87,6 @@ export default function PostWritePage() {
       } min-h-screen`}
     >
       <div className="flex flex-col max-w-4xl mx-auto py-10 px-4">
-        {/* 상단 버튼 라인 */}
         <div className="flex justify-between items-center mb-8">
           <BackButton />
           <button
@@ -102,8 +101,6 @@ export default function PostWritePage() {
             출간하기
           </button>
         </div>
-
-        {/* 제목 입력 */}
         <input
           type="text"
           placeholder="제목을 입력하세요."
@@ -111,8 +108,6 @@ export default function PostWritePage() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-
-        {/* 카테고리 드롭다운 */}
         <div className="relative w-[160px] mb-6 select-none">
           <div
             className="bg-transparent text-sm font-semibold py-2 px-3 border border-gray-300 rounded cursor-pointer"
@@ -146,8 +141,6 @@ export default function PostWritePage() {
             </ul>
           )}
         </div>
-
-        {/* 에디터 */}
         <div className="bg-white p-6 rounded shadow-sm mt-5">
           <TuiEditor
             ref={editorRef}

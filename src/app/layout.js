@@ -4,7 +4,7 @@ import InitUserProvider from "@/components/common/InitUserProvider";
 import GlobalModalLayer from "@/components/common/GlobalModal";
 
 export const metadata = {
-  metadataBase: new URL("http://localhost:3000/"),
+  metadataBase: new URL("https://hk-blog-l4lu.vercel.app"),
   description: "블로그 서비스",
   openGraph: {
     title: "WeLog",

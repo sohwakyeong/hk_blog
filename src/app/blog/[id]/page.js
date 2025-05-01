@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation"; // ✅ useParams 추가
+import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import useUserStore from "@/app/stores/useUserStore";
 import useModalStore from "@/app/stores/useModalStore";
@@ -9,14 +9,14 @@ import Header from "@/components/common/Header";
 import PostGrid from "@/components/post/PostGrid";
 
 export default function MyBlogPage() {
-  const { id } = useParams(); // ✅ 여기에서 URL의 blog 주인 id 가져오기
+  const { id } = useParams();
   const router = useRouter();
   const user = useUserStore((state) => state.user);
   const darkMode = useUserStore((state) => state.darkMode);
   const openProfileModal = useModalStore((state) => state.openProfileModal);
 
   const [posts, setPosts] = useState([]);
-  const [blogOwner, setBlogOwner] = useState(null); // 🔥 블로그 주인 정보 저장
+  const [blogOwner, setBlogOwner] = useState(null);
 
   useEffect(() => {
     const fetchUserPosts = async () => {

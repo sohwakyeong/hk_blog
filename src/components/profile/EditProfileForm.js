@@ -69,7 +69,7 @@ export default function EditProfileForm({ onClose }) {
       return
     }
 
-    // ✅ Zustand 전역 유저 상태 업데이트
+
     await fetchUser()
 
     showSuccess('프로필이 성공적으로 수정되었습니다!')

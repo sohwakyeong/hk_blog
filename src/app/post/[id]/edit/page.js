@@ -36,10 +36,10 @@ export default function PostEditPage() {
         return
       }
 
-      // 유저 정보 없으면 기다리기
+     
       if (!user) return
 
-      // 권한 체크
+   
       if (user.id !== data.author_id && !isAdmin) {
         showError('접근 권한이 없습니다.')
         router.back()
@@ -98,7 +98,6 @@ export default function PostEditPage() {
   return (
     <div className={`${darkMode ? 'bg-[#111] text-[#eee]' : 'bg-[#FAFAFA] text-[#111]'} min-h-screen`}>
       <div className="flex flex-col max-w-4xl mx-auto py-10 px-4">
-        {/* 상단 버튼 라인 */}
         <div className="flex justify-between items-center mb-8">
           <BackButton />
           <button
@@ -113,7 +112,6 @@ export default function PostEditPage() {
           </button>
         </div>
 
-        {/* 제목 입력 */}
         <input
           type="text"
           value={title}
@@ -122,7 +120,6 @@ export default function PostEditPage() {
           className="w-full text-5xl font-bold mb-4 outline-none bg-transparent placeholder-gray-400"
         />
 
-        {/* 에디터 */}
         <div className="bg-white p-6 rounded shadow-sm mt-5 min-h-[500px]">
           {loading ? (
             <div className="flex justify-center items-center h-[400px]">

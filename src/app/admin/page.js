@@ -92,8 +92,6 @@ export default function AdminPage() {
           />
           <h1 className="text-xl font-bold">게시글 전체 관리</h1>
         </div>
-
-        {/* 로딩 상태 처리 */}
         {isLoading ? (
           <div className="flex justify-center items-center py-10">
             <div className="w-10 h-10 border-4 border-gray-300 border-t-transparent rounded-full animate-spin dark:border-gray-600 dark:border-t-transparent" />
