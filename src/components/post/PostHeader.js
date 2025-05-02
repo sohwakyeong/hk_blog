@@ -1,5 +1,7 @@
 "use client";
 
+import { Pencil, Trash2 } from "lucide-react";
+
 export default function PostHeader({
   title,
   author,
@@ -19,8 +21,9 @@ export default function PostHeader({
 
   return (
     <div className="mb-10">
-      <h1 className="text-4xl font-bold mb-3 leading-snug">{title}</h1>
-      <div className="flex justify-between items-center text-sm text-gray-500">
+      <h1 className="text-4xl font-bold mb-3 leading-snug break-words">{title}</h1>
+
+      <div className="flex justify-between items-center text-sm text-gray-500 flex-wrap gap-y-2">
         <div className="flex gap-2 items-center flex-wrap">
           <span className="font-semibold">{author || "작성자 없음"}</span>
           <span>·</span>
@@ -40,12 +43,20 @@ export default function PostHeader({
         </div>
 
         {canEdit && (
-          <div className="flex gap-4">
-            <button onClick={onEdit} className={`${hoverEditClass} transition-colors`}>
-              수정
+          <div className="flex gap-3 sm:gap-2 max-sm:gap-2 max-sm:mt-1 whitespace-nowrap">
+            <button
+              onClick={onEdit}
+              className={`${hoverEditClass} transition-colors flex items-center gap-1`}
+            >
+              <span className="hidden sm:inline">수정</span>
+              <Pencil size={18} className="sm:hidden" />
             </button>
-            <button onClick={onDelete} className={`${hoverDeleteClass} transition-colors`}>
-              삭제
+            <button
+              onClick={onDelete}
+              className={`${hoverDeleteClass} transition-colors flex items-center gap-1`}
+            >
+              <span className="hidden sm:inline">삭제</span>
+              <Trash2 size={18} className="sm:hidden" />
             </button>
           </div>
         )}
