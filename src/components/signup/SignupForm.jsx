@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 import Image from 'next/image';
+import useUserStore from '@/app/stores/useUserStore';
 
 export default function SignupForm() {
   const router = useRouter();
@@ -15,7 +16,14 @@ export default function SignupForm() {
   const [profileImage, setProfileImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
 
+  const user = useUserStore((state) => state.user); 
   const bucket = process.env.NEXT_PUBLIC_STORAGE_BUCKET;
+
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, [user, router]);
 
   function sanitizeFilename(name) {
     return name
