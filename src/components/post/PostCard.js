@@ -14,8 +14,7 @@ const fallbackColors = [
   '#E0F2FE',
 ]
 
-
-export default function PostCard({ post, darkMode, onClick }) {
+export default function PostCard({ post, darkMode, onClick, index = 0 }) {
   const fallbackColor = useMemo(() => {
     return fallbackColors[Math.floor(Math.random() * fallbackColors.length)]
   }, [])
@@ -28,21 +27,20 @@ export default function PostCard({ post, darkMode, onClick }) {
       onClick={onClick}
     >
       {post.thumbnail_url ? (
-        <div className="relative w-full h-45">
+        <div className="relative w-full h-[180px]">
           <Image
             src={post.thumbnail_url}
             alt="썸네일"
             fill
             className="object-cover"
-            priority
+            priority={index === 0}
           />
         </div>
       ) : (
         <div
           className="w-full h-[180px] flex items-center justify-center"
           style={{ backgroundColor: fallbackColor }}
-        >
-        </div>
+        />
       )}
 
       <div className="p-3 flex flex-col justify-between flex-1">

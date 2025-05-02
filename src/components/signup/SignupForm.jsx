@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
-import Image from "next/image";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabaseClient';
+import Image from 'next/image';
 
 export default function SignupForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [blogName, setBlogName] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [blogName, setBlogName] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const [profileImage, setProfileImage] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState("");
+  const [previewUrl, setPreviewUrl] = useState('');
 
   const bucket = process.env.NEXT_PUBLIC_STORAGE_BUCKET;
 
   function sanitizeFilename(name) {
     return name
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-zA-Z0-9_.-]/g, "");
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-zA-Z0-9_.-]/g, '');
   }
 
   const handleSignup = async (e) => {
@@ -33,32 +33,32 @@ export default function SignupForm() {
     });
 
     if (error) {
-      let message = "";
+      let message = '';
       switch (error.message) {
-        case "User already registered":
-          message = "이미 가입된 이메일입니다.";
+        case 'User already registered':
+          message = '이미 가입된 이메일입니다.';
           break;
-        case "Signup requires a valid password":
-          message = "유효한 비밀번호를 입력해주세요.";
+        case 'Signup requires a valid password':
+          message = '유효한 비밀번호를 입력해주세요.';
           break;
-        case "Password should be at least 6 characters":
-          message = "비밀번호는 최소 6자 이상이어야 합니다.";
+        case 'Password should be at least 6 characters':
+          message = '비밀번호는 최소 6자 이상이어야 합니다.';
           break;
         default:
           message =
-            "회원가입 중 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.";
+            '회원가입 중 문제가 발생하였습니다. 잠시 후 다시 시도해주세요.';
       }
       setErrorMsg(message);
       return;
     }
 
     const user = data.user;
-    let imageUrl = "";
+    let imageUrl = '';
 
     if (profileImage && user) {
-      const ext = profileImage.type.split("/")[1];
+      const ext = profileImage.type.split('/')[1];
       const safeName = `${Date.now()}_${sanitizeFilename(
-        profileImage.name || "profile"
+        profileImage.name || 'profile'
       )}`;
       const filePath = `profiles/${user.id}/${safeName}`;
 
@@ -73,7 +73,7 @@ export default function SignupForm() {
     }
 
     if (user) {
-      const { error: profileError } = await supabase.from("profiles").insert([
+      const { error: profileError } = await supabase.from('profiles').insert([
         {
           id: user.id,
           email,
@@ -84,12 +84,12 @@ export default function SignupForm() {
       ]);
 
       if (profileError) {
-        setErrorMsg("프로필 등록 중 문제가 발생하였습니다.");
+        setErrorMsg('프로필 등록 중 문제가 발생하였습니다.');
         return;
       }
     }
 
-    router.push("/login");
+    router.push('/login');
   };
 
   const handleImageChange = (e) => {
@@ -114,7 +114,7 @@ export default function SignupForm() {
           <label htmlFor="profileImage" className="cursor-pointer">
             <div className="w-28 h-28 rounded-full overflow-hidden ring-1 ring-gray-200 shadow-sm">
               <Image
-                src={previewUrl || "/userbasicimg.png"}
+                src={previewUrl || '/userbasicimg.png'}
                 alt="프로필 이미지"
                 width={112}
                 height={112}
@@ -142,7 +142,7 @@ export default function SignupForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-[#F5F5F5] text-sm rounded-md px-4 py-2 outline-none"
+              className="w-full bg-[#F5F5F5] text-[#111] text-sm rounded-md px-4 py-2 outline-none"
             />
           </div>
 
@@ -155,7 +155,7 @@ export default function SignupForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full bg-[#F5F5F5] text-sm rounded-md px-4 py-2 outline-none"
+              className="w-full bg-[#F5F5F5] text-[#111] text-sm rounded-md px-4 py-2 outline-none"
             />
           </div>
 
@@ -168,7 +168,7 @@ export default function SignupForm() {
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               required
-              className="w-full bg-[#F5F5F5] text-sm rounded-md px-4 py-2 outline-none"
+              className="w-full bg-[#F5F5F5] text-[#111] text-sm rounded-md px-4 py-2 outline-none"
             />
           </div>
 
@@ -181,7 +181,7 @@ export default function SignupForm() {
               value={blogName}
               onChange={(e) => setBlogName(e.target.value)}
               required
-              className="w-full bg-[#F5F5F5] text-sm rounded-md px-4 py-2 outline-none"
+              className="w-full bg-[#F5F5F5] text-[#111] text-sm rounded-md px-4 py-2 outline-none"
             />
           </div>
 

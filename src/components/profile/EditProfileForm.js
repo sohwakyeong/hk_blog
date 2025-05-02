@@ -121,7 +121,7 @@ export default function EditProfileForm({ onClose }) {
             type="text"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
-            className="w-full bg-[#F5F5F5] text-sm rounded-md px-4 py-2"
+            className="w-full bg-[#F5F5F5] text-[#111] text-sm rounded-md px-4 py-2"
           />
         </div>
 
@@ -131,7 +131,7 @@ export default function EditProfileForm({ onClose }) {
             type="text"
             value={blogName}
             onChange={(e) => setBlogName(e.target.value)}
-            className="w-full bg-[#F5F5F5] text-sm rounded-md px-4 py-2"
+            className="w-full bg-[#F5F5F5] text-[#111] text-sm rounded-md px-4 py-2"
           />
         </div>
       </div>

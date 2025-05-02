@@ -49,7 +49,7 @@ export default function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-[#F5F5F5] text-sm rounded-md px-4 py-2 
+              className="w-full bg-[#F5F5F5] text-[#111] text-sm rounded-md px-4 py-2 
                          outline-none focus:outline-none focus:ring-0 focus:border-[#F5F5F5]"
             />
           </div>
@@ -63,7 +63,7 @@ export default function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full bg-[#F5F5F5] text-sm rounded-md px-4 py-2 
+              className="w-full bg-[#F5F5F5] text-[#111] text-sm rounded-md px-4 py-2 
                          outline-none focus:outline-none focus:ring-0 focus:border-[#F5F5F5]"
             />
           </div>
@@ -81,7 +81,7 @@ export default function LoginForm() {
         </form>
 
         <div className="text-center text-sm text-[#666]">
-          아직 회원이 아니신가요?
+          아직 회원이 아니신가요?{" "}
           <button
             onClick={() => router.push("/signup")}
             className="text-[#111] font-medium"
