@@ -81,8 +81,9 @@ export default function Header({ titleSuffix = "", blogOwnerId }) {
                   alt="내 프로필"
                   width={32}
                   height={32}
-                  className="rounded-full object-cover"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover"
                 />
+
                 <MoreVertical
                   className={`w-4 h-4 ${
                     darkMode ? "text-white" : "text-gray-600"
