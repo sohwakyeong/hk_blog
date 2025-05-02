@@ -44,7 +44,7 @@ export default function PostWritePage() {
 
   async function handleSubmit() {
     if (!title.trim()) return showError("제목을 입력하세요.");
-    if (!category) return showError("카테고리를 선택하세요."); 
+    if (!category) return showError("카테고리를 선택하세요.");
     const markdown = editorRef.current?.getInstance().getMarkdown();
     const html = editorRef.current?.getInstance().getHTML();
     if (!markdown.trim()) return showError("내용을 입력하세요.");
@@ -175,9 +175,8 @@ export default function PostWritePage() {
                   return;
                 }
 
-                const url =
-                  supabase.storage.from(bucket).getPublicUrl(safeName)
-                    .data.publicUrl;
+                const url = supabase.storage.from(bucket).getPublicUrl(safeName)
+                  .data.publicUrl;
                 callback(url, safeName);
               },
             }}

@@ -1,44 +1,44 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import { useMemo } from 'react'
+import Image from "next/image";
+import { useMemo } from "react";
 
 const fallbackColors = [
-  '#FDE68A',
-  '#A5F3FC',
-  '#D8B4FE',
-  '#FBCFE8',
-  '#BFDBFE',
-  '#CFFAFE',
-  '#FDE2E4',
-  '#E0F2FE',
-]
+  "#FDE68A",
+  "#A5F3FC",
+  "#D8B4FE",
+  "#FBCFE8",
+  "#BFDBFE",
+  "#CFFAFE",
+  "#FDE2E4",
+  "#E0F2FE",
+];
 
 export default function PostCard({ post, darkMode, onClick, index = 0 }) {
   const fallbackColor = useMemo(() => {
-    return fallbackColors[Math.floor(Math.random() * fallbackColors.length)]
-  }, [])
+    return fallbackColors[Math.floor(Math.random() * fallbackColors.length)];
+  }, []);
 
   return (
     <div
       className={`shadow-md rounded-xl overflow-hidden cursor-pointer hover:shadow-lg transition flex flex-col ${
-        darkMode ? 'bg-[#1A1A1A]' : 'bg-white'
+        darkMode ? "bg-[#1A1A1A]" : "bg-white"
       }`}
       onClick={onClick}
     >
       {post.thumbnail_url ? (
-        <div className="relative w-full h-[180px]">
+        <div className="relative w-full aspect-video">
           <Image
             src={post.thumbnail_url}
             alt="썸네일"
             fill
-            className="object-cover"
+            className="object-cover rounded-md"
             priority={index === 0}
           />
         </div>
       ) : (
         <div
-          className="w-full h-[180px] flex items-center justify-center"
+          className="w-full aspect-video flex items-center justify-center rounded-md"
           style={{ backgroundColor: fallbackColor }}
         />
       )}
@@ -53,17 +53,17 @@ export default function PostCard({ post, darkMode, onClick, index = 0 }) {
         )}
 
         <span className="text-sm text-gray-400 dark:text-[#aaa] mb-4">
-          {new Date(post.created_at).toLocaleDateString('ko-KR', {
-            timeZone: 'Asia/Seoul',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
+          {new Date(post.created_at).toLocaleDateString("ko-KR", {
+            timeZone: "Asia/Seoul",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
           })}
         </span>
 
         <div
           className={`flex items-center gap-2 pt-2 border-t ${
-            darkMode ? 'border-[#333]' : 'border-gray-200'
+            darkMode ? "border-[#333]" : "border-gray-200"
           }`}
         >
           <Image
@@ -71,7 +71,7 @@ export default function PostCard({ post, darkMode, onClick, index = 0 }) {
             alt="작성자 프로필"
             width={28}
             height={28}
-            className="rounded-full object-cover"
+            className="w-7 h-7 aspect-square rounded-full object-cover"
           />
           <span className="text-sm text-gray-600 dark:text-[#ccc]">
             by {post.nickname}
@@ -79,5 +79,5 @@ export default function PostCard({ post, darkMode, onClick, index = 0 }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
