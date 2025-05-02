@@ -126,6 +126,7 @@ export default function Header({ titleSuffix = "", blogOwnerId }) {
                     onClick={async () => {
                       await logout();
                       setMenuOpen(false);
+                      router.push("/");
                     }}
                   >
                     로그아웃
